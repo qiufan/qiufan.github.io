@@ -352,7 +352,7 @@
       
         
           
-            <p>为了写个小程序,正好以后入职也是要接触Typescript,先稍稍学习下基础。</p>
+            <p>为了写个小程序，正好以后入职也是要接触Typescript，先稍稍学习下基础。</p>
 <h1 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h1><table>
 <thead>
 <tr>
@@ -373,41 +373,67 @@
 <td>数字</td>
 <td>number</td>
 <td>0x,0b,0o</td>
-<td>只有浮点,支持十,十六,二,八进制</td>
+<td>只有浮点，支持十，十六，二，八进制</td>
 </tr>
 <tr>
 <td>字符串</td>
 <td>string</td>
 <td></td>
-<td>(用””或者’’包裹,也可以用’’包裹,${expr}嵌入)</td>
+<td>(用””或者’’包裹，也可以用’’包裹，${expr}嵌入)</td>
 </tr>
 <tr>
 <td>数组</td>
-<td>type([]),Array(&lt;)type(&gt;)</td>
+<td>type[],Array<type></type></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td>元组</td>
-<td>([type1,type2])</td>
+<td>[type1,type2]</td>
 <td>[string,name]</td>
 <td>用数组的形式包括两个类型就是元组，可以越界访问，会自动用联合类型替代</td>
 </tr>
 <tr>
 <td>枚举</td>
 <td>enum</td>
-<td>enum Color ({)Red=1, Green, Blue(})</td>
+<td>enum Color {Red=1,Green,Blue}</td>
 <td>可以手动赋予初始值</td>
 </tr>
 <tr>
 <td>Any</td>
 <td>any</td>
-<td>any[] = [1, true, “free”]</td>
+<td>any[]=[1,true,”free”]</td>
 <td>可以视作任意，包括可以在上面调用函数</td>
+</tr>
+<tr>
+<td>void</td>
+<td></td>
+<td>undefined,null</td>
+<td></td>
+</tr>
+<tr>
+<td>null和undefined</td>
+<td></td>
+<td></td>
+<td>默认情况它们是所有类型的子类型，–strictNullChecks可以规定只能赋给void和它们自己，同时使用联合类型</td>
+</tr>
+<tr>
+<td>Never</td>
+<td>never</td>
+<td>function error(message: string): never</td>
+<td>永远不存在，必须在函数无返回，或者报错</td>
+</tr>
+<tr>
+<td>object</td>
+<td>非原始类型</td>
+<td></td>
+<td>除了number,string,boolean,symbol,null和undefined之外的类型</td>
 </tr>
 </tbody>
 </table>
-
+<p>类型断言的方式有两种,<string>someValue或者someValue as string</string></p>
+<h1 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h1><p>let 和 const</p>
+<h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2>
           
         
       
