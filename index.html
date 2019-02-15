@@ -352,7 +352,7 @@
       
         
           
-            <p>为了写个小程序，正好以后入职也是要接触Typescript，先稍稍学习下基础。</p>
+            <p>为了写个小程序，正好以后入职也是要接触Typescript，先稍稍学习下基础，主要学习于<a href="https://www.tslang.cn/docs/home.html" target="_blank" rel="noopener">官方文档</a>。</p>
 <h1 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h1><table>
 <thead>
 <tr>
@@ -427,13 +427,36 @@
 <td>object</td>
 <td>非原始类型</td>
 <td></td>
-<td>除了number,string,boolean,symbol,null和undefined之外的类型</td>
+<td>除了number,string，boolean,symbol,null和undefined之外的类型</td>
 </tr>
 </tbody>
 </table>
 <p>类型断言的方式有两种,<string>someValue或者someValue as string</string></p>
 <h1 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h1><p>let 和 const</p>
-<h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2>
+<h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2><p>let的使用跟c++很像，不能重复定义，块级有效，可以覆盖，块级与变量环境绑定的，即使代码已经运行过去，环境依旧存在<br>‘’’<br>function theCityThatAlwaysSleeps() {<br>    let getCity;</p>
+<pre><code>if (true) {
+    let city = &quot;Seattle&quot;;
+    getCity = function() {
+        return city;
+    }
+}
+
+return getCity();
+</code></pre><p>}<br>‘’’<br>正如这里的例子，即使city已经执行完毕，return getCity()时依旧可以访问。</p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>const的特性与let一致，就是不能变动，维持不同的常量</p>
+<h2 id="解构和展开"><a href="#解构和展开" class="headerlink" title="解构和展开"></a>解构和展开</h2><p>展开比较容易理解<br>‘’’<br>let first = [1, 2];<br>let second = [3, 4];<br>let bothPlus = [0, …first, …second, 5];<br>‘’’<br>展开对象也可以，后面会覆盖钱前面相同属性，同时会丢失方法，只会展开可枚举的属性<br>‘’’<br>let defaults = { food: “spicy”, price: “$$”, ambiance: “noisy” };<br>let search = { …defaults, food: “rich” };<br>‘’’<br>解构的理解，看了点其他博客，理解不够深入，先摘要写一下，以后有机会再来补充。<br>在开发过程中，我们经常遇到这样问题，需要将对象某个属性的值赋给其它两个变量代码如下：<br>‘’’<br>var person = {<br>    name:’xxxx’,<br>    age: 20,<br>    hobby:[‘football’, ‘run’]<br>}</p>
+<p>var a = person.name;<br>var hobby = person.bobby;<br>‘’’<br>有了解构，我们可以精简代码了<br>‘’’</p>
+<p>var person = {<br>    name:’xxxx’,<br>    age: 20,<br>    hobby:[‘football’, ‘run’]<br>}<br>let {a, hobby} = person;</p>
+<p>let [first] = person.hobby;<br>‘’’<br>数组解构<br>‘’’<br>let input = [1, 2];<br>let [first, second] = input;<br>console.log(first); // outputs 1<br>console.log(second); // outputs 2<br>‘’’</p>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><p>因为之前一直没有实际用过接口，我目前对于接口的理解是一种定义和规定，接口本身不具有意义<br>‘’’<br>interface LabelledValue {<br>  label: string;<br>}</p>
+<p>function printLabel(labelledObj: LabelledValue) {<br>  console.log(labelledObj.label);<br>}</p>
+<p>let myObj = {size: 10, label: “Size 10 Object”};<br>printLabel(myObj);<br>‘’’<br>满足比较条件就可以了，多的属性被忽略<br>‘’’<br>interface SquareConfig {<br>  color?: string;<br>  width?: number;<br>}<br>‘’’<br>可选属性用?号表示<br>‘’’<br>interface Point {<br>    readonly x: number;<br>    readonly y: number;<br>}<br>‘’’<br>readonly来表示只读，然而可选属性与多的属性结合会出错。<br>‘’’<br>interface SquareConfig {<br>    color?: string;<br>    width?: number;<br>}</p>
+<p>function createSquare(config: SquareConfig): { color: string; area: number } {<br>    // …<br>}</p>
+<p>let mySquare = createSquare({ colour: “red”, width: 100 });<br>‘’’<br>上面这段colour是不行的，对象字面量会被特殊对待而且会经过额外属性检查，类型断言可以绕开检查，也可以添加索引签名。<br>接口也可以表示函数类型<br>‘’’<br>interface SearchFunc {<br>  (source: string, subString: string): boolean;<br>}<br>‘’’<br>可索引类型具有一个索引签名，它描述了对象索引的类型，还有相应的索引返回值类型。<br>‘’’<br>interface StringArray {<br>  [index: number]: string;<br>}</p>
+<p>let myArray: StringArray;<br>myArray = [“Bob”, “Fred”];</p>
+<p>let myStr: string = myArray[0];<br>‘’’<br>TypeScript支持两种索引签名：字符串和数字。 可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。<br>‘’’<br>class Animal {<br>    name: string;<br>}<br>class Dog extends Animal {<br>    breed: string;<br>}</p>
+<p>// 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!<br>interface NotOkay {<br>    [x: number]: Animal;<br>    [x: string]: Dog;<br>}<br>‘’’</p>
+
           
         
       
